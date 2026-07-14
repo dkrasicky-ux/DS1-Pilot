@@ -1,3 +1,5 @@
+from ds1_menu import get_menu
+
 from ds1_utils import format_time
 from ds1_time import current_timestamp
 from ds1_math import risk_level
