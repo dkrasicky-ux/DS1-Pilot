@@ -43,6 +43,7 @@ with col1:
 
 with col2:
     st.subheader("Inventory Levels")
+    inventory_data = []
     for k, v in inventory.items():
         if v < 10:
             status = "🔴 LOW"
@@ -50,17 +51,18 @@ with col2:
             status = "🟡 WATCH"
         else:
             status = "🟢 OK"
-        st.markdown(f"**{k}**: {v} units — {status}")
-        st.progress(min(v / 100, 1.0))
+        inventory_data.append({"Item": k, "Units": v, "Status": status})
+    st.table(pd.DataFrame(inventory_data))
 
 col3, col4 = st.columns(2)
 with col3:
     st.subheader("Station Load")
+    station_data = []
     total_load = sum(station_load.values()) or 1
     for station, load in station_load.items():
         pct = round((load / total_load) * 100, 1)
-        st.markdown(f"**{station} Station** — {load} orders ({pct}%)")
-        st.progress(min(load / total_load, 1.0))
+        station_data.append({"Station": station, "Orders": load, "Load %": pct})
+    st.table(pd.DataFrame(station_data))
 
 with col4:
     st.subheader("Failure-Point Alerts")
@@ -79,14 +81,28 @@ if st.button("🔄 Refresh Live Orders"):
     st.cache_data.clear()
     st.rerun()
 
+st.divider()
 st.subheader("🧪 DS1 Module Test")
-st.write("Timestamp:", current_timestamp())
-st.write("Formatted time:", format_time(8))
-st.write("Risk level (variance 4):", risk_level(4))
-st.write("Station load:", calculate_station_load({"Cutting": 5, "Assembly": 3, "Sides": 2}))
-import os
-st.write("Files in working directory:", os.listdir())
 
+test_data = {
+    "Timestamp": current_timestamp(),
+    "Formatted Time": format_time(8),
+    "Risk Level (variance 4)": risk_level(4),
+}
+
+col_test1, col_test2 = st.columns(2)
+with col_test1:
+    st.write("**Module Outputs:**")
+    for key, value in test_data.items():
+        st.markdown(f"- **{key}:** {value}")
+
+with col_test2:
+    st.write("**Station Load Percentages:**")
+    station_pct = calculate_station_load({"Cutting": 5, "Assembly": 3, "Sides": 2})
+    pct_data = [{"Station": k, "Load %": v} for k, v in station_pct.items()]
+    st.table(pd.DataFrame(pct_data))
+
+st.divider()
 st.subheader("📋 DS1 Menu Simulation")
 menu = get_menu()
 st.table(pd.DataFrame(menu))
