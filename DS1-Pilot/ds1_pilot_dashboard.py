@@ -1,4 +1,7 @@
 from ds1_utils import format_time
+from ds1_time import current_timestamp
+from ds1_math import risk_level
+from ds1_station import calculate_station_load
 import streamlit as st
 import time
 import random
@@ -67,7 +70,9 @@ with col4:
             )
 
 st.subheader("🧪 DS1 Module Test")
-st.write("Timestamp:", datetime.now())
+st.write("Timestamp:", current_timestamp())
 st.write("Formatted time:", format_time(8))
+st.write("Risk level (variance 4):", risk_level(4))
+st.write("Station load:", calculate_station_load({"Cutting": 5, "Assembly": 3, "Sides": 2}))
 import os
 st.write("Files in working directory:", os.listdir())
