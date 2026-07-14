@@ -4,6 +4,7 @@ from ds1_time import current_timestamp
 from ds1_math import risk_level
 from ds1_station import calculate_station_load
 import streamlit as st
+import pandas as pd
 import time
 import random
 from datetime import datetime
@@ -85,6 +86,7 @@ st.write("Risk level (variance 4):", risk_level(4))
 st.write("Station load:", calculate_station_load({"Cutting": 5, "Assembly": 3, "Sides": 2}))
 import os
 st.write("Files in working directory:", os.listdir())
+
 st.subheader("📋 DS1 Menu Simulation")
 menu = get_menu()
-st.write(menu)
+st.table(pd.DataFrame(menu))
