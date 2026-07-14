@@ -1,4 +1,4 @@
-from ds1_time import current_timestamp
+from ds1_utils import format_time
 import streamlit as st
 import time
 import random
