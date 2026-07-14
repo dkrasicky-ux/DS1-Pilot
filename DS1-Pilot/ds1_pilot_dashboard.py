@@ -64,15 +64,4 @@ with col4:
                 f"(+{f['variance']} min)"
             )
 
-st.caption(f"Last updated: {time.strftime('%Y-%m-%d %H:%M:%S')}")
-from ds1_station import calculate_station_load
 
-load_percentages = calculate_station_load(station_load)
-for station, pct in load_percentages.items():
-    st.markdown(f"**{station} Station** — {pct}% load")
-    st.progress(pct / 100)
-st.subheader("🧪 DS1 Module Test")
-st.write("Timestamp:", current_timestamp())
-st.write("Formatted time:", format_time(8))
-st.write("Risk level (variance 4):", risk_level(4))
-st.write("Station load:", calculate_station_load({"Cutting": 5, "Assembly": 3, "Sides": 2}))
