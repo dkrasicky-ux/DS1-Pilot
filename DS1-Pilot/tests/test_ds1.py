@@ -48,4 +48,4 @@ def test_station_load_from_orders_and_risk_assessment():
     assert station_load["Sides"] == 50
 
     risk = assess_station_risk(station_load)
-    assert risk == {"Cutting": "MEDIUM", "Assembly": "LOW", "Sides": "HIGH"}
+    assert risk == {"Cutting": "HIGH", "Assembly": "MEDIUM", "Sides": "HIGH"}

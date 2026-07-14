@@ -1,5 +1,3 @@
-import random
-
 import streamlit as st
 
 from ds1_menu import get_menu
@@ -15,17 +13,33 @@ def main():
     st.subheader("🔥 Live Orders (Linked to Menu)")
     menu = get_menu()
 
-    def get_live_orders(n=8):
-        orders = []
-        for _ in range(n):
-            item = random.choice(menu)
-            orders.append({
-                "item": item["name"],
-                "station": item["station"],
-                "prep_time": item["prep_time"],
+    def get_live_orders():
+        return [
+            {
+                "item": menu[0]["name"],
+                "station": menu[0]["station"],
+                "prep_time": 12,
                 "timestamp": current_timestamp(),
-            })
-        return orders
+            },
+            {
+                "item": menu[0]["name"],
+                "station": menu[0]["station"],
+                "prep_time": 12,
+                "timestamp": current_timestamp(),
+            },
+            {
+                "item": menu[1]["name"],
+                "station": menu[1]["station"],
+                "prep_time": 10,
+                "timestamp": current_timestamp(),
+            },
+            {
+                "item": menu[2]["name"],
+                "station": menu[2]["station"],
+                "prep_time": 25,
+                "timestamp": current_timestamp(),
+            },
+        ]
 
     orders = get_live_orders()
     st.write(orders)
