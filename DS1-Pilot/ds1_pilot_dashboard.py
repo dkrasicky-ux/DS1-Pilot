@@ -65,3 +65,9 @@ with col4:
             )
 
 st.caption(f"Last updated: {time.strftime('%Y-%m-%d %H:%M:%S')}")
+from ds1_station import calculate_station_load
+
+load_percentages = calculate_station_load(station_load)
+for station, pct in load_percentages.items():
+    st.markdown(f"**{station} Station** — {pct}% load")
+    st.progress(pct / 100)
