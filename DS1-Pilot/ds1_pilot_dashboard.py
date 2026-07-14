@@ -12,6 +12,8 @@ st.set_page_config(page_title="DS1 Pilot Dashboard", layout="wide")
 st.title("DS1 Pilot Dashboard")
 st.caption("Live kitchen intelligence powered by DS1 core engines.")
 
+# ⭐ Cache definition — MUST come before use
+@st.cache_data(ttl=60)
 def get_live_orders(n=8):
     items = ["Brisket Sandwich", "Pulled Pork", "Mac & Cheese"]
     orders = []
@@ -20,6 +22,7 @@ def get_live_orders(n=8):
         orders.append(process_order(item))
     return orders
 
+# ⭐ Call cached function
 orders = get_live_orders()
 failures = [o for o in orders if o["failure"]]
 
@@ -68,6 +71,11 @@ with col4:
                 f"Expected {f['prep_time']} min, Actual {f['adjusted_time']} min "
                 f"(+{f['variance']} min)"
             )
+
+# ⭐ Optional: Add a manual refresh button
+if st.button("🔄 Refresh Live Orders"):
+    st.cache_data.clear()
+    st.rerun()
 
 st.subheader("🧪 DS1 Module Test")
 st.write("Timestamp:", current_timestamp())
