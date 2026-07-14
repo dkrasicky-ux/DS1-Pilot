@@ -61,8 +61,7 @@ with col4:
             st.error(
                 f"{f['item']} at `{f['station']}` — "
                 f"Expected {f['prep_time']} min, Actual {f['adjusted_time']} min "
-                f"(+{f['variance']} min)"
-            )
+                f"(+{f['variance']} min)"            
 
 st.subheader("🧪 DS1 Module Test")
 st.write("Timestamp:", current_timestamp())
