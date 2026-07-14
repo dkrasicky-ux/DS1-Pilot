@@ -2,6 +2,7 @@ from ds1_utils import format_time
 import streamlit as st
 import time
 import random
+from datetime import datetime
 from ds1_core import process_order, inventory, station_load
 
 st.set_page_config(page_title="DS1 Pilot Dashboard", layout="wide")
@@ -62,14 +63,11 @@ with col4:
             st.error(
                 f"{f['item']} at `{f['station']}` — "
                 f"Expected {f['prep_time']} min, Actual {f['adjusted_time']} min "
-                f"(+{f['variance']} min)"            
-
-)
+                f"(+{f['variance']} min)"
+            )
 
 st.subheader("🧪 DS1 Module Test")
-st.write("Timestamp:", current_timestamp())
+st.write("Timestamp:", datetime.now())
 st.write("Formatted time:", format_time(8))
-st.write("Risk level (variance 4):", risk_level(4))
-st.write("Station load:", calculate_station_load({"Cutting": 5, "Assembly": 3, "Sides": 2}))
 import os
 st.write("Files in working directory:", os.listdir())
