@@ -9,6 +9,7 @@ from ds1_menu import get_menu
 from ds1_math import risk_level
 from ds1_station import calculate_station_load
 from ds1_utils import format_time
+from ds1_risk import assess_station_risk
 
 
 def test_menu_contains_expected_items():
@@ -33,3 +34,18 @@ def test_station_load_percentages():
 def test_format_time_labels():
     assert format_time(8) == "8 min"
     assert format_time(0) == "Under 1 min"
+
+
+def test_station_load_from_orders_and_risk_assessment():
+    orders = [
+        {"station": "Cutting", "prep_time": 35},
+        {"station": "Assembly", "prep_time": 10},
+        {"station": "Sides", "prep_time": 50},
+    ]
+    station_load = calculate_station_load(orders)
+    assert station_load["Cutting"] == 35
+    assert station_load["Assembly"] == 10
+    assert station_load["Sides"] == 50
+
+    risk = assess_station_risk(station_load)
+    assert risk == {"Cutting": "MEDIUM", "Assembly": "LOW", "Sides": "HIGH"}
