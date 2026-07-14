@@ -1,5 +1,14 @@
 import streamlit as st
 
+try:
+    from streamlit_autorefresh import st_autorefresh
+except ImportError:  # pragma: no cover - fallback for minimal environments
+    def st_autorefresh(*args, **kwargs):
+        return None
+
+# Refresh every 5 seconds
+st_autorefresh(interval=5000, key="ds1_refresh")
+
 from ds1_menu import get_menu
 from ds1_risk import assess_station_risk
 from ds1_station import calculate_station_load
@@ -50,7 +59,32 @@ def main():
 
     st.subheader("⚠️ DS1 Risk Engine")
     risk = assess_station_risk(station_load)
-    st.write(risk)
+
+    risk_colors = {
+        "LOW": "#2ecc71",
+        "MEDIUM": "#f1c40f",
+        "HIGH": "#e74c3c",
+    }
+
+    st.markdown(
+        "<div style='background-color:#555;padding:8px;border-radius:6px;margin-bottom:10px'>"
+        "<span style='color:yellow;font-size:20px'>⚠️</span>"
+        "<span style='color:white;font-size:20px;font-weight:bold'> DS1 Risk Engine</span>"
+        "</div>",
+        unsafe_allow_html=True,
+    )
+
+    for station, level in risk.items():
+        color = risk_colors[level]
+        st.markdown(
+            f"""
+            <div style='background-color:{color};padding:10px;border-radius:8px;margin-bottom:8px'>
+                <strong style='color:white;font-size:16px'>{station}</strong>
+                <span style='float:right;color:white;font-weight:bold'>{level}</span>
+            </div>
+            """,
+            unsafe_allow_html=True,
+        )
 
 
 if __name__ == "__main__":
